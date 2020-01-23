@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -38,7 +37,7 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
-THIRD_PARTY_APPS = ["django_countries"]
+THIRD_PARTY_APPS = ["django_countries", "django_seed"]
 
 PROJECT_APPS = [
     "users",
@@ -135,3 +134,7 @@ STATIC_URL = '/static/'
 # Do Django User Model Customizing
 # https://docs.djangoproject.com/en/3.0/topics/auth/customizing/
 AUTH_USER_MODEL = 'users.User'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "uploads") # 미디어파일의 경로를 연결해주는 작업 / os.path.join 함수는 BASE_DIR에 뒤에 uploads를 연결해줌
+
+MEDIA_URL = "/media/" # 미디어 url의 절대경로를 바꿔주는 것. # /~~~/이건 절대경로로서 url끝에다가 추가하는 것이 아님 ~~~~/ 이건 url의 경로 뒤에 추가하는 것
