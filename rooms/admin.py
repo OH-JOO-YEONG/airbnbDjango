@@ -55,7 +55,6 @@ class RoomAdmin(admin.ModelAdmin):
 
     list_display = (
         "name",
-        "description",
         "country",
         "city",
         "price",
