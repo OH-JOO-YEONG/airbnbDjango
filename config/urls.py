@@ -14,12 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('', include('core.urls', namespace="core")),
     path('admin/', admin.site.urls),
+
 ]
 
 if settings.DEBUG: # DEBUG가 True일때만 원하는 것 즉 개발모드에서만 이렇게 쓸거임. 프로덕션 모드에선 안쓴다.
