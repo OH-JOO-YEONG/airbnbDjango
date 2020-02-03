@@ -4,7 +4,9 @@
 {% endblock page_name %}
 {% block content %}
     {% for room in rooms %}
-        <h3>{{ room.name }} / ${{ room.price }}</h3>
+    <a href="{% url 'rooms:detail' room.pk %}">
+        <h4>{{ room.name }} / ${{ room.price }}</h4>
+    </a>
     {% endfor %}
     <h5>
     {% if page_obj.has_previous %}
