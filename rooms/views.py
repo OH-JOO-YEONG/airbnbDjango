@@ -1,8 +1,7 @@
 from django.views.generic import ListView, View
 from django.http import Http404
-from django.urls import reverse
-from django.shortcuts import render, redirect
-from django_countries import countries
+from django.shortcuts import render
+from django.core.paginator import Paginator
 from . import models
 from . import forms
 
@@ -75,20 +74,33 @@ class SearchView(View):
                 if superhost is True:
                     filter_args["host__superhost"] = True
 
-                rooms = models.Room.objects.filter(**filter_args)
+                qs = models.Room.objects.filter(**filter_args).order_by("-created")
 
                 for amenity in amenities:
-                    rooms = rooms.filter(amenities__pk=amenity.pk)
+                    qs = qs.filter(amenities__pk=amenity.pk)
 
                 for facility in facilities:
-                    rooms = rooms.filter(facilities__pk=facility.pk)
+                    qs = qs.filter(facilities__pk=facility.pk)
+
+                paginator = Paginator(qs, 2)
+
+                page = request.GET.get("page", 1)
+
+                rooms = paginator.get_page(page)
+
+                query_string = request.environ.get("QUERY_STRING")
+
+                return render(request, "rooms/search.html", {
+                    "form": form,
+                    "rooms": rooms,
+                    "query_string": query_string,
+                })
 
         else:
             form = forms.SearchForm()
 
         return render(request, "rooms/search.html", {
             "form": form,
-            "rooms": rooms,
         })
 
 
