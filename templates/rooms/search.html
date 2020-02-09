@@ -23,11 +23,11 @@
 
     <h5>
         {% if rooms.has_previous %}
-        <a href="?page={{ rooms.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Previous</a>
+        <a href="?page={{ rooms.previous_page_number }}&{{ parameters }}">Previous</a>
         {% endif %}
         Page {{ rooms.number }} of {{ rooms.paginator.num_pages }}
         {% if rooms.has_next %}
-        <a href="?page={{ rooms.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Next</a>
+        <a href="?page={{ rooms.next_page_number }}&{{ parameters }}">Next</a>
         {% endif %}
     </h5>
 {% endblock %}
