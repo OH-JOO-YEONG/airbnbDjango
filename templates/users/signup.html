@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+    Sign Up
+{% endblock page_title %}
+
+{% block search-bar %}
+{% endblock search-bar %}
+
+{% block content %}
+    <form action="{% url 'users:signup' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button>Sign Up</button>
+    </form>
+{% endblock %}
