@@ -138,3 +138,12 @@ AUTH_USER_MODEL = 'users.User'
 MEDIA_ROOT = os.path.join(BASE_DIR, "uploads") # 미디어파일의 경로를 연결해주는 작업 / os.path.join 함수는 BASE_DIR에 뒤에 uploads를 연결해줌
 
 MEDIA_URL = "/media/" # 미디어 url의 절대경로를 바꿔주는 것. # /~~~/이건 절대경로로서 url끝에다가 추가하는 것이 아님 ~~~~/ 이건 url의 경로 뒤에 추가하는 것
+
+#Email Configuration
+
+EMAIL_HOST = "smtp.mailgun.org"
+EMAIL_PORT = "587"
+EMAIL_HOST_USER = os.environ.get("MAILGUN_USERNAME")
+EMAIL_HOST_PASSWORD = os.environ.get("MAILGUN_PASSWORD")
+EMAIL_FROM = "cool-guy@sandbox2ff8d432264840a69e1f77670bdd5466.mailgun.org"
+

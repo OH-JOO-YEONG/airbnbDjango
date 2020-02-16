@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login, logout
 from . import forms
+from . import models
 
 class LoginView(View):
 
@@ -37,9 +38,9 @@ class SignUpView(FormView):
     initial = {
         "first_name": "Jooyeong",
         "last_name": "Oh",
-        "email": "brb1111@naver.com",
-        "password": "ab964922",
-        "password1": "ab964922"
+        "email": "brb111@nate.com",
+        "password": "",
+        "password1": ""
     }
 
     def form_valid(self, form):
@@ -49,4 +50,17 @@ class SignUpView(FormView):
         user = authenticate(self.request, username=email, password=password)
         if user is not None:
             login(self.request, user)
+        user.verify_email()
         return super().form_valid(form)
+
+def complete_verification(request, key):
+    try:
+        user = models.User.objects.get(email_secret=key)
+        user.email_verified = True
+        user.email_secret = ""
+        user.save()
+        # 성공메시지
+    except models.User.DoesNotExist:
+        # 실패메시지
+        pass
+    return redirect(reverse("core:home"))
