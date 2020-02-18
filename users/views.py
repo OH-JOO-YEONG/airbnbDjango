@@ -83,16 +83,16 @@ def github_callback(request):
         client_secret = os.environ.get("GH_SECRET")
         code = request.GET.get("code", None)
         if code is not None:
-            result = requests.post(
+            token_request = requests.post(
                 f"https://github.com/login/oauth/access_token?client_id={client_id}&client_secret={client_secret}&code={code}",
                 headers={"Accept": "application/json"}, #이 줄에 의해서 json 값으로 주어진다.
             )
-            result_json = result.json()
-            error = result_json.get("error", None) #json 에러 판별
+            token_json = token_request.json()
+            error = token_json.get("error", None) #json 에러 판별
             if error is not None:
                 raise GithubException()
             else: # json이 문제가 없을 때 액세스토큰을 준다.
-                access_token = result_json.get("access_token") # 액세스 토큰이 문제 없으면 github api를 요청할 수 있다.
+                access_token = token_json.get("access_token") # 액세스 토큰이 문제 없으면 github api를 요청할 수 있다.
                 profile_request = requests.get(
                     "https://api.github.com/user",
                     headers={
@@ -102,16 +102,32 @@ def github_callback(request):
                 )
                 profile_json = profile_request.json()
                 username = profile_json.get("login", None)
-                # 유저네임이 현재 profile request에에있는지 없는지 판별
+                # 유저네임이 현재 profile request에 있는지 없는지 판별
                 if username is not None:
                     name = profile_json.get("name")
                     email = profile_json.get("email")
                     bio = profile_json.get("bio")
-                    user = models.User.objects.get(email=email)
+                    try:
+                        user = models.User.objects.get(email=email) #깃허브의 이메일로 유저를 가져오고 유저가 있다면
+                        if user.login_method != models.User.LOGIN_GITHUB: # 유저를 찾았다면 로그인 메서드를 확인 후 깃허브가 아니였다면
+                            raise GithubException()
+                    except models.User.DoesNotExist: # 깃허브의 이메일로 유저를 가져오지 못했다면
+                        user = models.User.objects.create(
+                            email=email,
+                            first_name=name,
+                            bio=bio,
+                            username=email,
+                            login_method=models.User.LOGIN_GITHUB
+                        )
+                        user.set_unusable_password()
+                        user.save()
+                    login(request, user)
+                    return redirect(reverse("core:home"))
                 else:
                     raise GithubException()
         else:
             raise GithubException()
 
     except GithubException:
+        
         return redirect(reverse("users:login"))
