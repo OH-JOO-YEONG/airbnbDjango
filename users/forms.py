@@ -1,5 +1,6 @@
 from django import forms
 from . import models
+from django.contrib.auth import password_validation
 
 class LoginForm(forms.Form):
 
@@ -24,8 +25,18 @@ class SignUpForm(forms.ModelForm):
         model = models.User
         fields = ("first_name", "last_name", "email")
 
-    password = forms.CharField(widget=forms.PasswordInput)
-    password1 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
+    password = forms.CharField(
+        label="Password",
+        widget=forms.PasswordInput,
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    password1 = forms.CharField(
+        label="Password confirmation",
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+        strip=False,
+        help_text="확인을 위해 이전과 동일한 암호를 입력하십시오.",
+    )
 
     # def clean_email(self):
     #     email = self.cleaned_data.get("email")
@@ -42,7 +53,11 @@ class SignUpForm(forms.ModelForm):
         if password != password1:
             raise forms.ValidationError("Password confirmation does not match")
         else:
-            return password
+            try:
+                password_validation.validate_password(password1, self.instance)
+                return password
+            except forms.ValidationError as error:
+                self.add_error("password", error)
 
     def save(self, *args, **kwargs):
         user = super().save(commit=False)
