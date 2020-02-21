@@ -1,0 +1,22 @@
+{
+  "name": "airbnbdjango",
+  "version": "1.0.0",
+  "description": "장고로 만드는 에어비엔비클론",
+  "scripts": {
+    "css": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OH-JOO-YEONG/airbnbDjango.git"
+  },
+  "homepage": "https://github.com/OH-JOO-YEONG/airbnbDjango#readme",
+  "devDependencies": {
+    "autoprefixer": "^9.7.4",
+    "gulp": "^4.0.2",
+    "gulp-csso": "^3.0.1",
+    "gulp-postcss": "^8.0.0",
+    "gulp-sass": "^4.0.2",
+    "node-sass": "^4.13.1",
+    "tailwindcss": "^1.2.0"
+  }
+}
