@@ -1,33 +1,42 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    <title>{% block page_title %}{% endblock page_title %}| AirBnb</title>
-  </head>
-  <body class="text-gray-800 mt-24">
-    <header
-      class="container max-w-full flex items-center justify-between px-6 h-20 border-b border-gray-400 fixed bg-white inset-0"
-    >
-      <div class="flex items-center w-1/3">
-        <a href="{% url 'core:home' %}" class="mr-6">
-          <img class="w-8" src="{% static 'img/airbnb_logo.png' %}" alt="" />
-        </a>
-        {% block search-bar %}
-        <form method="get" action="{% url 'rooms:search' %}" class="w-9/12">
-          <input
-            class="search-box border px-5 py-3 text-lg w-full font-bold text-gray-900 placeholder-gray-600 rounded w-64 shadow-md hover:shadow-lg focus:outline-none"
-            value=""
-            name="city"
-            placeholder="Search By city"
-          />
-        </form>
-        {% endblock search-bar %}
-      </div>
-      {% include "partials/nav.html" %}
-    </header>
-    {% block content %} {% endblock content %} {% include "partials/footer.html"
-    %}
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+        <title>{% block page_title %}{% endblock page_title %}| AirBnb</title>
+    </head>
+    <body class="text-gray-800 mt-24">
+        <header
+            class="container max-w-full flex items-center justify-between px-6 h-20 border-b border-gray-400 fixed bg-white inset-0"
+        >
+            <div class="flex items-center w-1/3">
+                <a href="{% url 'core:home' %}" class="mr-6">
+                    <img
+                        class="w-8"
+                        src="{% static 'img/airbnb_logo.png' %}"
+                        alt=""
+                    />
+                </a>
+                {% block search-bar %}
+                <form
+                    method="get"
+                    action="{% url 'rooms:search' %}"
+                    class="w-9/12"
+                >
+                    <input
+                        class="search-box border px-5 py-3 text-lg w-full font-bold text-gray-900 placeholder-gray-600 rounded w-64 shadow-md hover:shadow-lg focus:outline-none"
+                        value=""
+                        name="city"
+                        placeholder="Search By city"
+                    />
+                </form>
+                {% endblock search-bar %}
+            </div>
+            {% include "partials/nav.html" %}
+        </header>
+        {% block content %} 
+        {% endblock content %} 
+        {% include "partials/footer.html" %}
+    </body>
 </html>
