@@ -4,8 +4,8 @@ from django.contrib.auth import password_validation
 
 class LoginForm(forms.Form):
 
-    email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    email = forms.EmailField(widget=forms.EmailInput(attrs={"placeholder": "Email"}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={"placeholder": "Password"}))
 
     def clean(self):
         email = self.cleaned_data.get("email")
@@ -24,16 +24,21 @@ class SignUpForm(forms.ModelForm):
     class Meta:
         model = models.User
         fields = ("first_name", "last_name", "email")
+        widgets = {
+            'first_name': forms.TextInput(attrs={"placeholder": "First name"}),
+            'last_name': forms.TextInput(attrs={"placeholder": "Last name"}),
+            'email': forms.EmailInput(attrs={"placeholder": "Email"}),
+        }
 
     password = forms.CharField(
         label="Password",
-        widget=forms.PasswordInput,
+        widget=forms.PasswordInput(attrs={"placeholder": "Password"}),
         strip=False,
         help_text=password_validation.password_validators_help_text_html(),
     )
     password1 = forms.CharField(
         label="Password confirmation",
-        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+        widget=forms.PasswordInput(attrs={"placeholder": "Confirm Password"}),
         strip=False,
         help_text="확인을 위해 이전과 동일한 암호를 입력하십시오.",
     )

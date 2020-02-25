@@ -1,14 +1,19 @@
 <div class="flex flex-col w-full">
     <a
         href="{% url 'users:github-login' %}"
-        class="w-full border border-gray-700 font-bold mb-2 text-gray-700 text-center rounded-sm py-3"
+        class="btn border-2 border-gray-700 mb-2 text-gray-700"
     >
         <i class="fab fa-github fa-lg mr-2"></i> 깃허브로 로그인
     </a>
     <a
         href="{% url 'users:kakao-login' %}"
-        class="w-full border border-yellow-500 font-bold mb-2 text-yellow-800 text-center rounded-sm py-3 bg-yellow-400"
+        class="btn border border-yellow-500 mb-2 text-yellow-800 bg-yellow-400"
     >
         <i class="fas fa-comment mr-2"></i> 카카오로 로그인
     </a>
+</div>
+<div class="flex items-center w-full flex-auto my-5">
+    <div class="h-px w-full bg-gray-500"></div>
+    <span class="text-gray-700 font-semibold mx-4 text-sm">or</span>
+    <div class="h-px w-full bg-gray-500"></div>
 </div>
