@@ -15,7 +15,7 @@ class LoginForm(forms.Form):
             if user.check_password(password):
                 return self.cleaned_data
             else:
-                self.add_error("password", forms.ValidationError("Password is wrong"))
+                self.add_error(None, forms.ValidationError("Password is wrong"))
         except models.User.DoesNotExist:
             self.add_error("email", forms.ValidationError("User does not exist"))
 
@@ -43,13 +43,13 @@ class SignUpForm(forms.ModelForm):
         help_text="확인을 위해 이전과 동일한 암호를 입력하십시오.",
     )
 
-    # def clean_email(self):
-    #     email = self.cleaned_data.get("email")
-    #     try:
-    #         models.User.objects.get(email=email)
-    #         raise forms.ValidationError("User already exists with that email")
-    #     except models.User.DoesNotExist:
-    #         return email
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        try:
+            models.User.objects.get(email=email)
+            raise forms.ValidationError("User already exists with that email")
+        except models.User.DoesNotExist:
+            return email
 
     def clean_password1(self):
         password = self.cleaned_data.get("password")

@@ -27,8 +27,13 @@ input {
     }
 }
 form {
-    input {
+    .input {
         @apply mb-3;
+        &.has_error {
+            input {
+                @apply bg-red-500;
+            }
+        }
     }
 }
 
