@@ -8,7 +8,7 @@
     ></div>
 
     <div class="flex flex-wrap -mx-40 mb-10">
-        {% for room in rooms %} {% include 'partials/room_card.html' with room=room %} {% endfor %}
+        {% for room in rooms %} {% include 'mixins/room_card.html' with room=room %} {% endfor %}
     </div>
     <div class="flex items-center mx-auto container justify-center">
         {% if page_obj.has_previous %}
