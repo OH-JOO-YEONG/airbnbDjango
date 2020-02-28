@@ -5,6 +5,7 @@ from django.views.generic import FormView
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from django.core.files.base import ContentFile
 from . import forms
 from . import models
@@ -84,7 +85,7 @@ def github_callback(request):
             token_json = token_request.json()
             error = token_json.get("error", None) #json 에러 판별
             if error is not None:
-                raise GithubException()
+                raise GithubException("Can't get access token")
             else: # json이 문제가 없을 때 액세스토큰을 준다.
                 access_token = token_json.get("access_token") # 액세스 토큰이 문제 없으면 github api를 요청할 수 있다.
                 profile_request = requests.get(
@@ -104,7 +105,7 @@ def github_callback(request):
                     try:
                         user = models.User.objects.get(email=email) #깃허브의 이메일로 유저를 가져오고 유저가 있다면
                         if user.login_method != models.User.LOGIN_GITHUB: # 유저를 찾았다면 로그인 메서드를 확인 후 깃허브가 아니였다면
-                            raise GithubException()
+                            raise GithubException(f"Please login in with: {user.login_method}")
                     except models.User.DoesNotExist: # 깃허브의 이메일로 유저를 가져오지 못했다면
                         user = models.User.objects.create(
                             email=email,
@@ -117,14 +118,15 @@ def github_callback(request):
                         user.set_unusable_password()
                         user.save()
                     login(request, user)
+                    messages.success(request, f"Welcome back {user.first_name}")
                     return redirect(reverse("core:home"))
                 else:
-                    raise GithubException()
+                    raise GithubException("Can't get your profile")
         else:
-            raise GithubException()
+            raise GithubException("Can't get code")
 
-    except GithubException:
-
+    except GithubException as e:
+        messages.error(request, e)
         return redirect(reverse("users:login"))
 
 def kakao_login(request):
@@ -144,7 +146,7 @@ def kakao_callback(request):
         token_json = token_request.json()
         error = token_json.get("error", None)
         if error is not None:
-            raise KakaoException()
+            raise KakaoException("Cat't get authorization code")
         access_token = token_json.get("access_token")
         profile_request = requests.get(
             "https://kapi.kakao.com/v2/user/me",
@@ -154,14 +156,14 @@ def kakao_callback(request):
         kakao_account = profile_json.get("kakao_account")
         email = kakao_account.get("email", None)
         if email is None:
-            raise KakaoException()
+            raise KakaoException("Please also give me your email")
         profile = kakao_account.get("profile")
         nickname = profile.get("nickname")
         profile_image = profile.get('profile_image_url', None)
         try:
             user = models.User.objects.get(email=email)
             if user.login_method != models.User.LOGIN_KAKAO:
-                raise KakaoException()
+                raise KakaoException(f"Please log in with: {user.login_method}")
         except models.User.DoesNotExist:
             user = models.User.objects.create(
                 email=email,
@@ -177,6 +179,8 @@ def kakao_callback(request):
                 # photo_request.content()는 json도 아닌 text도 아닌 0 과 1로 이루어진 bullshit파일
                 user.avatar.save(f"{nickname}-avatar", ContentFile(photo_request.content)) # ContentFile 메서드로 해주면 bullshit파일을 파일로 바꿔줌 % django에서 bullshit파일을 처리하는 방법
         login(request, user)
+        messages.success(request, f"Welcome back {user.first_name}")
         return redirect(reverse("core:home"))
-    except KakaoException:
+    except KakaoException as e:
+        messages.error(request, e)
         return redirect(reverse("users:login"))

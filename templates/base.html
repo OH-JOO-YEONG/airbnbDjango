@@ -8,6 +8,7 @@
         <title>{% block page_title %}{% endblock page_title %}| AirBnb</title>
     </head>
     <body class="text-gray-800 mt-24 font-light">
+        {% include "partials/messages.html" %}
         <header
             class="container max-w-full flex items-center justify-between px-6 h-20 border-b border-gray-400 fixed bg-white inset-0"
         >
@@ -38,6 +39,7 @@
         </header>
         {% block content %} 
         {% endblock content %} 
+        
         {% include "partials/footer.html" %}
     </body>
 </html>
