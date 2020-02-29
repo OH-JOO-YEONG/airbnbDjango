@@ -213,7 +213,7 @@ class UserProfileView(DetailView):
     model = models.User
     context_object_name = 'user_obj'
 
-class UpdateProfileView(mixins.EmailLoginOnlyView, mixins.LoggedInOnlyView, SuccessMessageMixin, UpdateView):
+class UpdateProfileView(mixins.LoggedInOnlyView, SuccessMessageMixin, UpdateView):
 
     model = models.User
     template_name = "users/update-profile.html"
@@ -240,7 +240,7 @@ class UpdateProfileView(mixins.EmailLoginOnlyView, mixins.LoggedInOnlyView, Succ
         form.fields['bio'].widget.attrs = {'placeholder': "Bio"}
         return form
 
-class UpdatePasswordView(mixins.LoggedInOnlyView, SuccessMessageMixin, PasswordChangeView):
+class UpdatePasswordView(mixins.EmailLoginOnlyView, mixins.LoggedInOnlyView, SuccessMessageMixin, PasswordChangeView):
 
     template_name = "users/update-password.html"
     success_message = "Password Updated"
