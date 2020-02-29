@@ -7,30 +7,51 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.files.base import ContentFile
-from . import forms
-from . import models
+from . import forms, models, mixins
 
-class LoginView(View):
 
-    def get(self, request):
-        form = forms.LoginForm(initial={"email": "brb1111@naver.com"})
-        return render(request, "users/login.html", {
-            "form": form,
-        })
+class LoginView(mixins.LoggedOutOnlyView, FormView):
 
-    def post(self, request):
-        form = forms.LoginForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data.get("email")
-            password = form.cleaned_data.get("password")
-            user = authenticate(request, username=email, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect(reverse("core:home"))
-        return render(request, "users/login.html", {
-            "form": form,
-        })
+    template_name = "users/login.html"
+    form_class = forms.LoginForm
+
+    def form_valid(self, form):
+        email = form.cleaned_data.get("email")
+        password = form.cleaned_data.get("password")
+        user = authenticate(self.request, username=email, password=password)
+        if user is not None:
+            login(self.request, user)
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        next_arg = self.request.GET.get("next")
+        if next_arg is not None:
+            return next_arg
+        else:
+            return reverse("core:home")
+
+    #View 일 때
+    # def get(self, request):
+    #     form = forms.LoginForm(initial={"email": "brb1111@naver.com"})
+    #     return render(request, "users/login.html", {
+    #         "form": form,
+    #     })
+    #
+    # def post(self, request):
+    #     form = forms.LoginForm(request.POST)
+    #     if form.is_valid():
+    #         email = form.cleaned_data.get("email")
+    #         password = form.cleaned_data.get("password")
+    #         user = authenticate(request, username=email, password=password)
+    #         if user is not None:
+    #             login(request, user)
+    #             return redirect(reverse("core:home"))
+    #     return render(request, "users/login.html", {
+    #         "form": form,
+    #     })
+
 
 def log_out(request):
     messages.info(request, f"See you later {request.user.first_name}")
@@ -192,7 +213,7 @@ class UserProfileView(DetailView):
     model = models.User
     context_object_name = 'user_obj'
 
-class UpdateProfileView(UpdateView):
+class UpdateProfileView(mixins.EmailLoginOnlyView, mixins.LoggedInOnlyView, SuccessMessageMixin, UpdateView):
 
     model = models.User
     template_name = "users/update-profile.html"
@@ -206,6 +227,8 @@ class UpdateProfileView(UpdateView):
         "currency",
     )
 
+    success_message = "Profile Updated"
+
     def get_object(self, queryset=None):
         return self.request.user
     
@@ -217,9 +240,10 @@ class UpdateProfileView(UpdateView):
         form.fields['bio'].widget.attrs = {'placeholder': "Bio"}
         return form
 
-class UpdatePasswordView(PasswordChangeView):
+class UpdatePasswordView(mixins.LoggedInOnlyView, SuccessMessageMixin, PasswordChangeView):
 
     template_name = "users/update-password.html"
+    success_message = "Password Updated"
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
