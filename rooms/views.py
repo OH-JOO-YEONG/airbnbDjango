@@ -1,4 +1,4 @@
-from django.views.generic import ListView, View
+from django.views.generic import ListView, View, UpdateView
 from django.http import Http404
 from django.shortcuts import render
 from django.core.paginator import Paginator
@@ -106,3 +106,26 @@ class SearchView(View):
         })
 
 
+class EditRoomView(UpdateView):
+
+    model = models.Room
+    fields = (
+        "name",
+        "description",
+        "country",
+        "city",
+        "price",
+        "address",
+        "guests",
+        "beds",
+        "bedrooms",
+        "baths",
+        "check_in",
+        "check_out",
+        "instant_book",
+        "room_type",
+        "amenities",
+        "facilities",
+        "house_rules",
+    )
+    template_name = "rooms/rooms_edit.html"
