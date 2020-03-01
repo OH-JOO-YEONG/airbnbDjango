@@ -1,10 +1,12 @@
 from django.views.generic import ListView, View, UpdateView, DetailView
 from django.http import Http404
+from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, reverse
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from users import mixins as user_mixins
+from django.contrib.messages.views import SuccessMessageMixin
 from . import models, forms
 
 
@@ -164,7 +166,19 @@ def delete_photos(request, room_pk, photo_pk):
     except models.Room.DoesNotExist:
         return redirect(reverse("core:home"))
 
+class EditPhotoView(user_mixins.LoggedInOnlyView, SuccessMessageMixin, UpdateView):
 
+    model = models.Photo
+    template_name = "rooms/photo_edit.html"
+    pk_url_kwarg = 'photo_pk' # UpdateView 는 argument를 찾아서 바꿔야하는데(pk형식만 찾음) 이걸 지정안하면 Photo pk 값을 찾을 수 없다 그래서 pk url을 찾는 방법임
+    success_message = "Photo Update"
+    fields = (
+        "caption",
+    )
+
+    def get_success_url(self): # 성공하면 돌아가는 페이지
+        room_pk = self.kwargs.get("room_pk") #room_pk argument 얻는 방법
+        return reverse("rooms:photos", kwargs={"pk": room_pk})
 
 
 
