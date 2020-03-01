@@ -22,3 +22,18 @@ class SearchForm(forms.Form):
     데이터를 다 정리해준다.(이상한 데이터들을 필드에 와서 int형인지 str형인지 정리시켜줌)
     
     """
+
+class CreatePhotoForm(forms.ModelForm):
+
+    class Meta:
+        model = models.Photo
+        fields = (
+            "caption",
+            "file",
+        )
+
+    def save(self, pk, *args, **kwargs):
+        photo = super().save(commit=False)
+        room = models.Room.objects.get(pk=pk)
+        photo.room = room
+        photo.save()

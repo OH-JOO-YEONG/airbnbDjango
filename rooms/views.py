@@ -1,4 +1,4 @@
-from django.views.generic import ListView, View, UpdateView, DetailView
+from django.views.generic import ListView, View, UpdateView, DetailView, FormView
 from django.http import Http404
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, reverse
@@ -179,6 +179,23 @@ class EditPhotoView(user_mixins.LoggedInOnlyView, SuccessMessageMixin, UpdateVie
     def get_success_url(self): # 성공하면 돌아가는 페이지
         room_pk = self.kwargs.get("room_pk") #room_pk argument 얻는 방법
         return reverse("rooms:photos", kwargs={"pk": room_pk})
+
+class AddPhotoView(user_mixins.LoggedInOnlyView, FormView):
+
+    model = models.Photo
+    template_name = "rooms/photo_create.html"
+    fields = (
+        "caption",
+        "file",
+    )
+    form_class = forms.CreatePhotoForm
+
+    def form_valid(self, form):
+        pk = self.kwargs.get('pk')
+        form.save(pk)
+        messages.success(self.request, "Photo Uploaded")
+        return redirect(reverse("rooms:photos", kwargs={'pk': pk}))
+
 
 
 
