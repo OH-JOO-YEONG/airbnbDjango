@@ -85,7 +85,8 @@
         </div>
         <div class="w-1/3">
             {% if room.host == user %}
-                <a href="{% url 'rooms:edit' room.pk %}" class="btn-link block">Edit Room</a>
+                <a href="{% url 'rooms:edit' room.pk %}" class="btn-link block my-3 bg-teal-500">Edit Room</a>
+                <a href="{% url 'rooms:delete-room' room.pk %}" class="btn-link block">Delete Room</a>
             {% endif %}
         </div>
     </div>

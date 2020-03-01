@@ -113,6 +113,8 @@ class SearchView(View):
 
 class EditRoomView(user_mixins.LoggedInOnlyView, UpdateView):
 
+    """ 방 정보 변경 """
+
     model = models.Room
     fields = (
         "name",
@@ -143,6 +145,8 @@ class EditRoomView(user_mixins.LoggedInOnlyView, UpdateView):
 
 class RoomPhotosView(user_mixins.LoggedInOnlyView, DetailView):
 
+    """ 방 사진 목록 """
+
     model = models.Room
     template_name = "rooms/room_photos.html"
 
@@ -166,7 +170,20 @@ def delete_photos(request, room_pk, photo_pk):
     except models.Room.DoesNotExist:
         return redirect(reverse("core:home"))
 
+def delete_rooms(request, pk):
+    room = models.Room.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        room.delete()
+        return redirect(reverse("core:home"))
+
+    return render(request, "rooms/rooms_delete.html", {
+        "room": room,
+    })
+
 class EditPhotoView(user_mixins.LoggedInOnlyView, SuccessMessageMixin, UpdateView):
+
+    """ 방 사진의 Caption 변화 """
 
     model = models.Photo
     template_name = "rooms/photo_edit.html"
@@ -181,6 +198,8 @@ class EditPhotoView(user_mixins.LoggedInOnlyView, SuccessMessageMixin, UpdateVie
         return reverse("rooms:photos", kwargs={"pk": room_pk})
 
 class AddPhotoView(user_mixins.LoggedInOnlyView, FormView):
+
+    """ 방 사진 추가 """
 
     model = models.Photo
     template_name = "rooms/photo_create.html"

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+    Delete Room
+{% endblock page_title %}
+
+{% block search-bar %}
+{% endblock search-bar %}
+
+{% block content %}
+
+    <div class="container lg:w-5/12 md:w-1/2 xl:w-1/4 mx-auto my-10 flex flex-col items-center p-5 pt-6 ">
+        <div class="h-75vh flex items-center">
+            <form  class="flex flex-col text-center" action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h4 class="text-3xl font-semibold">{{room.name}}</h4>
+                <span class="font-bold mt-10 text-2xl">삭제하면 되돌릴 수 없습니다</span>
+                <span class="font-bold my-10 text-2xl">정말로 <span class="text-red-600">삭제</span>하시겠습니까?</span>
+                <button class="btn bg-red-500 text-white">삭제하기</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
