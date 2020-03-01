@@ -201,12 +201,7 @@ class AddPhotoView(user_mixins.LoggedInOnlyView, FormView):
 
     """ 방 사진 추가 """
 
-    model = models.Photo
     template_name = "rooms/photo_create.html"
-    fields = (
-        "caption",
-        "file",
-    )
     form_class = forms.CreatePhotoForm
 
     def form_valid(self, form):
@@ -214,6 +209,19 @@ class AddPhotoView(user_mixins.LoggedInOnlyView, FormView):
         form.save(pk)
         messages.success(self.request, "Photo Uploaded")
         return redirect(reverse("rooms:photos", kwargs={'pk': pk}))
+
+class CreateRoomView(user_mixins.LoggedInOnlyView, FormView):
+
+    form_class = forms.CreateRoomForm
+    template_name = "rooms/room_create.html"
+
+    def form_valid(self, form): # interception 기법인데 폼에서 save를 commit=False로 해서 인스턴스에 저장 후 반환해서 이 뷰에서 받은 것
+        room = form.save() # forms.py의 room을 반환한걸 받은 것
+        room.host = self.request.user
+        room.save() # 호스트를 저장했으니 세이브
+        form.save_m2m() # forms.py에서 commit=False 했기 때문에 save()메서드로는 ManytoMany필드 양식이 저장 안됐었음. 그래서 save_m2m() 메서드를 한번 더 해주는 것
+        messages.success(self.request, "Room Created")
+        return redirect(reverse("rooms:detail", kwargs={'pk': room.pk}))
 
 
 

@@ -4,6 +4,7 @@ from . import views
 app_name = "rooms"
 
 urlpatterns = [
+    path("create/", views.CreateRoomView.as_view(), name="create"),
     path("<int:pk>/", views.room_detail, name="detail"),
     path("<int:pk>/edit/", views.EditRoomView.as_view(), name="edit"),
     path("<int:pk>/delete/", views.delete_rooms, name="delete-room"),
