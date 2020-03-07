@@ -12,6 +12,9 @@ class BookedDay(core_models.TimeStampedModel):
         verbose_name = "Booked Day"
         verbose_name_plural = "Booked Days"
 
+    def __str__(self):
+        return str(self.day)
+
 class Reservation(core_models.TimeStampedModel):
     """ Reservation Model Defintion """
 
@@ -51,7 +54,7 @@ class Reservation(core_models.TimeStampedModel):
             start = self.check_in
             end = self.check_out
             difference = end - start
-            existing_booked_day = BookedDay.objects.filter(day__range=(start, end)).exists() # 사이에 예약된 일자가 있는지 찾아보는 것
+            existing_booked_day = BookedDay.objects.filter(day__range=(start, end), reservation__room=self.room).exists() # 사이에 예약된 일자가 있는지 찾아보는 것
             if not existing_booked_day:
                 super().save(*args, **kwargs) # reservation이 미리 save되어 있지 않으면 BookedDay에 reservation을 포린키로 저장할수 없기 때문
                 for i in range(difference.days + 1):

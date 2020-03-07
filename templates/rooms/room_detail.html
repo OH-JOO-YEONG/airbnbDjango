@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load sexy_capitals %}
+{% load is_booked %}
 
 {% block page_title %}
     {{ room.name }}
@@ -90,7 +90,6 @@
                 <a href="{% url 'rooms:edit' room.pk %}" class="btn-link block my-3 bg-teal-500">Edit Room</a>
                 <a href="{% url 'rooms:delete-room' room.pk %}" class="btn-link block">Delete Room</a>
             {% else %}
-                {{'something'|sexy_capitals}}
                 {% if not request.session.is_hosting %}
                     {% for calendar in room.get_calendars %}
                     <div class="mb-20">
@@ -102,9 +101,13 @@
                         </div>
                         <div class="cal-grid">
                             {% for day in calendar.get_days %}
+                                <!--is_booked 에 있는 값을 is_booked_bool에 저장한다는 뜻-->
+                                {% is_booked room day as is_booked_bool %}
                                 {% if day.number != 0 %}
                                     {% if day.past %}
-                                    <span class="rounded bg-gray-200 w-full text-center p-1 text-gray-300">{{day}}</span>
+                                    <span class="rounded bg-gray-200 w-full text-center p-1 text-gray-400">{{day}}</span>
+                                    {% elif is_booked_bool %}
+                                    <span class="rounded bg-gray-200 w-full text-center p-1 text-gray-400 line-through">{{day}}</span>
                                     {% else %}
                                     <span class="bg-gray-200 w-full text-medium text-center rounded text-gray-800 p-1 hover:bg-teal-400 hover:text-white hover:font-semibold cursor-pointer">{{day}}</span>
                                     {% endif %}
