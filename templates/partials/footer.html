@@ -1,6 +1,7 @@
-<footer
-    class="container mx-auto text-center py-10 border-t font-semibold text-gray-500"
->
-    &copy; 2020 Ohbnb, Inc. All rights reserved. made by OH-JOO-YEONG (No
-    Commercial)
+{% load i18n %}
+<footer class="container mx-auto text-center py-10 border-t font-semibold text-gray-500">
+    <span>
+        {% trans "Please don't copy us." %}
+    </span>
+    &copy; 2020 Ohbnb, Inc. {% trans "All rights reserved" %}. made by OH-JOO-YEONG (No Commercial)
 </footer>

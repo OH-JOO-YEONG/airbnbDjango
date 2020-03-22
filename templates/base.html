@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 <!DOCTYPE html>
 <html lang="ko">
     <head>
@@ -30,7 +30,7 @@
                         class="search-box border px-4 py-2 text-lg w-full font-bold text-gray-900 placeholder-gray-600 rounded w-64 shadow-md hover:shadow-lg focus:outline-none"
                         value=""
                         name="city"
-                        placeholder="Search By city"
+                        placeholder="{% trans "Search By City" %}"
                     />
                 </form>
                 {% endblock search-bar %}
