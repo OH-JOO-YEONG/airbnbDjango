@@ -1,5 +1,6 @@
 import os
 import requests
+from django.http import HttpResponse
 from django.views import View
 from django.views.generic import FormView, DetailView, UpdateView
 from django.contrib.auth.views import PasswordChangeView
@@ -33,7 +34,7 @@ class LoginView(mixins.LoggedOutOnlyView, FormView):
         else:
             return reverse("core:home")
 
-    #View 일 때
+    # View 일 때
     # def get(self, request):
     #     form = forms.LoginForm(initial={"email": "brb1111@naver.com"})
     #     return render(request, "users/login.html", {
@@ -59,6 +60,7 @@ def log_out(request):
     logout(request)
     return redirect(reverse("core:home"))
 
+
 class SignUpView(FormView):
     template_name = "users/signup.html"
     form_class = forms.SignUpForm
@@ -74,6 +76,7 @@ class SignUpView(FormView):
         user.verify_email()
         return super().form_valid(form)
 
+
 def complete_verification(request, key):
     try:
         user = models.User.objects.get(email_secret=key)
@@ -86,15 +89,18 @@ def complete_verification(request, key):
         pass
     return redirect(reverse("core:home"))
 
+
 def github_login(request):
     client_id = os.environ.get("GH_ID")
     redirect_uri = "http://127.0.0.1:8000/users/login/github/callback"
     return redirect(f'https://github.com/login/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&scope=read:user')
-    #유저가 리다이렉트되고
-    #리다이렉트 된 유저는 github페이지로 가서 우리가 로그인하고 싶은 어플리케이션의 아이디와 어떤 걸 얻고싶은지 알아내는 기능
+    # 유저가 리다이렉트되고
+    # 리다이렉트 된 유저는 github페이지로 가서 우리가 로그인하고 싶은 어플리케이션의 아이디와 어떤 걸 얻고싶은지 알아내는 기능
+
 
 class GithubException(Exception):
     pass
+
 
 def github_callback(request):
     try:
@@ -104,14 +110,16 @@ def github_callback(request):
         if code is not None:
             token_request = requests.post(
                 f"https://github.com/login/oauth/access_token?client_id={client_id}&client_secret={client_secret}&code={code}",
-                headers={"Accept": "application/json"}, #이 줄에 의해서 json 값으로 주어진다.
+                # 이 줄에 의해서 json 값으로 주어진다.
+                headers={"Accept": "application/json"},
             )
             token_json = token_request.json()
-            error = token_json.get("error", None) #json 에러 판별
+            error = token_json.get("error", None)  # json 에러 판별
             if error is not None:
                 raise GithubException("Can't get access token")
-            else: # json이 문제가 없을 때 액세스토큰을 준다.
-                access_token = token_json.get("access_token") # 액세스 토큰이 문제 없으면 github api를 요청할 수 있다.
+            else:  # json이 문제가 없을 때 액세스토큰을 준다.
+                # 액세스 토큰이 문제 없으면 github api를 요청할 수 있다.
+                access_token = token_json.get("access_token")
                 profile_request = requests.get(
                     "https://api.github.com/user",
                     headers={
@@ -127,10 +135,12 @@ def github_callback(request):
                     email = profile_json.get("email")
                     bio = profile_json.get("bio")
                     try:
-                        user = models.User.objects.get(email=email) #깃허브의 이메일로 유저를 가져오고 유저가 있다면
-                        if user.login_method != models.User.LOGIN_GITHUB: # 유저를 찾았다면 로그인 메서드를 확인 후 깃허브가 아니였다면
-                            raise GithubException(f"Please login in with: {user.login_method}")
-                    except models.User.DoesNotExist: # 깃허브의 이메일로 유저를 가져오지 못했다면
+                        # 깃허브의 이메일로 유저를 가져오고 유저가 있다면
+                        user = models.User.objects.get(email=email)
+                        if user.login_method != models.User.LOGIN_GITHUB:  # 유저를 찾았다면 로그인 메서드를 확인 후 깃허브가 아니였다면
+                            raise GithubException(
+                                f"Please login in with: {user.login_method}")
+                    except models.User.DoesNotExist:  # 깃허브의 이메일로 유저를 가져오지 못했다면
                         user = models.User.objects.create(
                             email=email,
                             first_name=name,
@@ -142,7 +152,8 @@ def github_callback(request):
                         user.set_unusable_password()
                         user.save()
                     login(request, user)
-                    messages.success(request, f"Welcome back {user.first_name}")
+                    messages.success(
+                        request, f"Welcome back {user.first_name}")
                     return redirect(reverse("core:home"))
                 else:
                     raise GithubException("Can't get your profile")
@@ -153,20 +164,24 @@ def github_callback(request):
         messages.error(request, e)
         return redirect(reverse("users:login"))
 
+
 def kakao_login(request):
     client_id = os.environ.get("KAKAO_ID")
     redirect_uri = "http://127.0.0.1:8000/users/login/kakao/callback"
     return redirect(f"https://kauth.kakao.com/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code")
 
+
 class KakaoException(Exception):
     pass
+
 
 def kakao_callback(request):
     try:
         code = request.GET.get("code", None)
         client_id = os.environ.get("KAKAO_ID")
         redirect_uri = "http://127.0.0.1:8000/users/login/kakao/callback"
-        token_request = requests.get(f'https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}&redirect_uri={redirect_uri}&code={code}')
+        token_request = requests.get(
+            f'https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}&redirect_uri={redirect_uri}&code={code}')
         token_json = token_request.json()
         error = token_json.get("error", None)
         if error is not None:
@@ -187,7 +202,8 @@ def kakao_callback(request):
         try:
             user = models.User.objects.get(email=email)
             if user.login_method != models.User.LOGIN_KAKAO:
-                raise KakaoException(f"Please log in with: {user.login_method}")
+                raise KakaoException(
+                    f"Please log in with: {user.login_method}")
         except models.User.DoesNotExist:
             user = models.User.objects.create(
                 email=email,
@@ -201,7 +217,9 @@ def kakao_callback(request):
             if profile_image is not None:
                 photo_request = requests.get(profile_image)
                 # photo_request.content()는 json도 아닌 text도 아닌 0 과 1로 이루어진 bullshit파일
-                user.avatar.save(f"{nickname}-avatar", ContentFile(photo_request.content)) # ContentFile 메서드로 해주면 bullshit파일을 파일로 바꿔줌 % django에서 bullshit파일을 처리하는 방법
+                # ContentFile 메서드로 해주면 bullshit파일을 파일로 바꿔줌 % django에서 bullshit파일을 처리하는 방법
+                user.avatar.save(f"{nickname}-avatar",
+                                 ContentFile(photo_request.content))
         login(request, user)
         messages.success(request, f"Welcome back {user.first_name}")
         return redirect(reverse("core:home"))
@@ -209,10 +227,12 @@ def kakao_callback(request):
         messages.error(request, e)
         return redirect(reverse("users:login"))
 
+
 class UserProfileView(DetailView):
 
     model = models.User
     context_object_name = 'user_obj'
+
 
 class UpdateProfileView(mixins.LoggedInOnlyView, SuccessMessageMixin, UpdateView):
 
@@ -232,7 +252,7 @@ class UpdateProfileView(mixins.LoggedInOnlyView, SuccessMessageMixin, UpdateView
 
     def get_object(self, queryset=None):
         return self.request.user
-    
+
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
         form.fields['birthdate'].widget.attrs = {'placeholder': "Birthdate"}
@@ -241,6 +261,7 @@ class UpdateProfileView(mixins.LoggedInOnlyView, SuccessMessageMixin, UpdateView
         form.fields['bio'].widget.attrs = {'placeholder': "Bio"}
         return form
 
+
 class UpdatePasswordView(mixins.EmailLoginOnlyView, mixins.LoggedInOnlyView, SuccessMessageMixin, PasswordChangeView):
 
     template_name = "users/update-password.html"
@@ -248,13 +269,17 @@ class UpdatePasswordView(mixins.EmailLoginOnlyView, mixins.LoggedInOnlyView, Suc
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
-        form.fields['old_password'].widget.attrs = {'placeholder': "Current Password"}
-        form.fields['new_password1'].widget.attrs = {'placeholder': "New Password"}
-        form.fields['new_password2'].widget.attrs = {'placeholder': "Confirm Password"}
+        form.fields['old_password'].widget.attrs = {
+            'placeholder': "Current Password"}
+        form.fields['new_password1'].widget.attrs = {
+            'placeholder': "New Password"}
+        form.fields['new_password2'].widget.attrs = {
+            'placeholder': "Confirm Password"}
         return form
 
     def get_success_url(self):
         return self.request.user.get_absolute_url()
+
 
 @login_required
 def switch_hosting(request):
@@ -265,16 +290,9 @@ def switch_hosting(request):
     return redirect(reverse("core:home"))
 
 
+def switch_language(request):
+    lang = request.GET.get("lang", None)
+    if lang is not None:
+        pass
 
-
-
-
-
-
-
-
-
-
-
-
-
+    return HttpResponse(status=200)

@@ -1,7 +1,15 @@
 {% load i18n %}
 <footer class="container mx-auto text-center py-10 border-t font-semibold text-gray-500">
-    <span>
-        {% trans "Please don't copy us." %}
-    </span>
-    &copy; 2020 Ohbnb, Inc. {% trans "All rights reserved" %}. made by OH-JOO-YEONG (No Commercial)
+    <div class="flex flex-col">
+        <span>
+            {% trans "Please don't copy us." %}
+        </span>
+        &copy; 2020 Ohbnb, Inc. {% trans "All rights reserved" %}. made by OH-JOO-YEONG (No Commercial)
+    </div>
+    <div class="mt-10 flex">
+        <select class="w-1/5 h-8" id="js-lang">
+            <option value="en">English</option>
+            <option value="ko">Korean</option>
+        </select>
+    </div>
 </footer>
