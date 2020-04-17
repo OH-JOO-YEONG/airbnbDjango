@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-17 17:01+0900\n"
+"POT-Creation-Date: 2020-04-17 18:20+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1204,3 +1204,96 @@ msgstr "함부로 복사하지 마세요"
 #: .\templates\partials\footer.html:7
 msgid "All rights reserved"
 msgstr "모든 복제 금지"
+
+#: .\templates\rooms\room_list.html:21
+#, python-format
+msgid "Page %(current_page)s of %(total_pages)s"
+msgstr "%(total_pages)s 중 %(current_page)s "
+
+#: .\users\mixins.py:13 .\users\mixins.py:23
+msgid "Can't go there"
+msgstr "접근할 수 없는 곳입니다"
+
+#: .\users\models.py:20
+msgid "Male"
+msgstr "남성"
+
+#: .\users\models.py:21
+msgid "Female"
+msgstr "여성"
+
+#: .\users\models.py:22
+msgid "Other"
+msgstr "다름"
+
+#: .\users\models.py:29
+msgid "English"
+msgstr "영어"
+
+#: .\users\models.py:30
+msgid "Korean"
+msgstr "한국어"
+
+#: .\users\models.py:37
+msgid "USD"
+msgstr "달러"
+
+#: .\users\models.py:38
+msgid "KRW"
+msgstr "원"
+
+#: .\users\models.py:44
+msgid "Email"
+msgstr "이메일"
+
+#: .\users\models.py:45
+msgid "Github"
+msgstr "깃허브"
+
+#: .\users\models.py:46
+msgid "Kakao"
+msgstr "카카오"
+
+#: .\users\models.py:49
+msgid "avatar"
+msgstr "아바타"
+
+#: .\users\models.py:50
+msgid "gender"
+msgstr "성별"
+
+#: .\users\models.py:51
+msgid "bio"
+msgstr "소개"
+
+#: .\users\models.py:52
+msgid "birthdate"
+msgstr "생일"
+
+#: .\users\models.py:53
+msgid "language"
+msgstr "언어"
+
+#: .\users\models.py:54
+msgid "currency"
+msgstr "화폐"
+
+#: .\users\models.py:55
+msgid "superhost"
+msgstr "호스트"
+
+#: .\users\models.py:56
+msgid "email_verified"
+msgstr "이메일 인증"
+
+#: .\users\models.py:57
+msgid "email_secret"
+msgstr "이메일 인증 비번"
+
+#: .\users\models.py:58
+msgid "login_method"
+msgstr "로그인 방법"
+
+#: .\users\models.py:69
+msgid "Verify Airbnb Account"
+msgstr "Airbnb 계정 확인"
