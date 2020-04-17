@@ -13,12 +13,12 @@
 
     {% include 'partials/social_login.html' %}
 
-    {% include 'mixins/auth/auth_form.html' with form=form cta="회원가입" %}
+    {% include 'mixins/auth/auth_form.html' with form=form cta="Sign up" %}
         
         <div class="mt-5">
-            <span class="mr-2">이미 계정이 있으신가요?</span>
+            <span class="mr-2">Have an account?</span>
             <a href="{% url 'users:login' %}" class="text-teal-500 font-semibold">
-                로그인
+                Log in
             </a>
         </div>
     </div>

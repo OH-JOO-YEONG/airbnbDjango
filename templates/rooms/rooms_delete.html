@@ -14,9 +14,9 @@
             <form  class="flex flex-col text-center" action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <h4 class="text-3xl font-semibold">{{room.name}}</h4>
-                <span class="font-bold mt-10 text-2xl">삭제하면 되돌릴 수 없습니다</span>
-                <span class="font-bold my-10 text-2xl">정말로 <span class="text-red-600">삭제</span>하시겠습니까?</span>
-                <button class="btn bg-red-500 text-white">삭제하기</button>
+                <span class="font-bold mt-10 text-2xl">If you delete it, it cannot be reversed.</span>
+                <span class="font-bold my-10 text-2xl">Are you sure you want to <span class="text-red-600">delete</span>it?</span>
+                <button class="btn bg-red-500 text-white">Delete</button>
             </form>
         </div>
     </div>

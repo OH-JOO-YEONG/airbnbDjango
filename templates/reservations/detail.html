@@ -35,11 +35,11 @@
             <div class="py-10 px-5">
             {% if reservation.status != 'canceled' %}
                 {% if reservation.status == 'confirmed' and reservation.is_finished %}
-                    <span class="font-semibold text-lg text-center w-full block mb-5">리뷰 쓰기</span>
+                    <span class="font-semibold text-lg text-center w-full block mb-5">Review Write</span>
                     <form action="{% url 'reviews:create' reservation.room.pk %}" method="POST" class="w-1/2 mx-auto">
                         {% csrf_token %}
                         {{form}}
-                        <button class="btn-link mt-5">리뷰 제출</button>
+                        <button class="btn-link mt-5">Review Submit</button>
                     </form>
                 {% else %}
                     {% if reservation.status == 'pending' %}
