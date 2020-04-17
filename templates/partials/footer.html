@@ -7,9 +7,10 @@
         &copy; 2020 Ohbnb, Inc. {% trans "All rights reserved" %}. made by OH-JOO-YEONG (No Commercial)
     </div>
     <div class="mt-10 flex">
+        {% get_current_language as LANGUAGE_CODE %}
         <select class="w-1/5 h-15" id="js-lang">
-            <option value="en">English</option>
-            <option value="ko">Korean</option>
+            <option value="en" {% if LANGUAGE_CODE == 'en'%}selected{% endif %}>English</option>
+            <option value="ko" {% if LANGUAGE_CODE == 'ko'%}selected{% endif %}>Korean</option>
         </select>
     </div>
 </footer>
