@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block page_title %}
     Delete Room
 {% endblock page_title %}
@@ -14,9 +14,9 @@
             <form  class="flex flex-col text-center" action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <h4 class="text-3xl font-semibold">{{room.name}}</h4>
-                <span class="font-bold mt-10 text-2xl">If you delete it, it cannot be reversed.</span>
-                <span class="font-bold my-10 text-2xl">Are you sure you want to <span class="text-red-600">delete</span>it?</span>
-                <button class="btn bg-red-500 text-white">Delete</button>
+                <span class="font-bold mt-10 text-2xl">{% trans "If you delete it, it cannot be reversed." %}</span>
+                <span class="font-bold my-10 text-2xl">{% trans "Are you sure you want to" %} <span class="text-red-600">{% trans "delete" %}</span>{% trans "it?" %}</span>
+                <button class="btn bg-red-500 text-white">{% trans "Delete" %}</button>
             </form>
         </div>
     </div>

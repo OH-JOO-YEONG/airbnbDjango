@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
+#: .\templates\rooms\room_detail.html:96 .\templates\rooms\room_detail.html:97
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-17 18:20+0900\n"
+"POT-Creation-Date: 2020-04-19 19:55+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -556,6 +557,7 @@ msgid "Order"
 msgstr ""
 
 #: .\myvenv\Lib\site-packages\django\forms\formsets.py:375
+#: .\templates\rooms\room_photos.html:26 .\templates\rooms\rooms_delete.html:19
 msgid "Delete"
 msgstr ""
 
@@ -1197,6 +1199,14 @@ msgstr ""
 msgid "Search By City"
 msgstr "도시 검색"
 
+#: .\templates\lists\lists_detail.html:10
+msgid "My Favorites"
+msgstr ""
+
+#: .\templates\mixins\room_card.html:12 .\users\models.py:55
+msgid "superhost"
+msgstr "호스트"
+
 #: .\templates\partials\footer.html:5
 msgid "Please don't copy us."
 msgstr "함부로 복사하지 마세요"
@@ -1205,10 +1215,162 @@ msgstr "함부로 복사하지 마세요"
 msgid "All rights reserved"
 msgstr "모든 복제 금지"
 
+#: .\templates\partials\nav.html:7
+msgid "Stop hosting"
+msgstr "호스팅 중지"
+
+#: .\templates\partials\nav.html:9
+msgid "Start hosting"
+msgstr "호스팅 시작"
+
+#: .\templates\partials\nav.html:14
+msgid "Create Room"
+msgstr "방 생성"
+
+#: .\templates\partials\nav.html:16
+msgid "Favs"
+msgstr "즐겨찾기"
+
+#: .\templates\partials\nav.html:17
+msgid "Profile"
+msgstr "회원정보"
+
+#: .\templates\partials\nav.html:18
+msgid "Log out"
+msgstr "로그아웃"
+
+#: .\templates\partials\nav.html:20
+msgid "Login"
+msgstr "로그인"
+
+#: .\templates\partials\nav.html:21
+msgid "Sign Up"
+msgstr "회원가입"
+
+#: .\templates\partials\social_login.html:7
+msgid "GITHUB LOGIN"
+msgstr "깃허브 로그인"
+
+#: .\templates\partials\social_login.html:13
+msgid "KAKAO LOGIN"
+msgstr "카카오 로그인"
+
+#: .\templates\reservations\detail.html:31
+msgid "Contact your Airbnb Host"
+msgstr "Airbnb 호스트에 문의하십시오"
+
+#: .\templates\reservations\detail.html:32
+msgid "Send a Message"
+msgstr "메시지 보내기"
+
+#: .\templates\reservations\detail.html:38
+msgid "Review Write"
+msgstr "리뷰 남기기"
+
+#: .\templates\reservations\detail.html:42
+msgid "Review Submit"
+msgstr "리뷰 제출하기"
+
+#: .\templates\reservations\detail.html:46
+msgid "Cancel Reservation"
+msgstr "예약 취소"
+
+#: .\templates\reservations\detail.html:48
+msgid "Confirm Reservation"
+msgstr "예약 확인"
+
+#: .\templates\rooms\room_detail.html:31
+msgid "Remove from Favorites"
+msgstr "즐겨찾기 제거"
+
+#: .\templates\rooms\room_detail.html:33
+msgid "Save to Favorites"
+msgstr "즐겨찾기 저장"
+
+#: .\templates\rooms\room_detail.html:46
+msgid "Amenities"
+msgstr "생활 편의 시설"
+
+#: .\templates\rooms\room_detail.html:52
+msgid "Facilities"
+msgstr "시설"
+
+#: .\templates\rooms\room_detail.html:58
+msgid "House Rules"
+msgstr "집 규칙"
+
+#: .\templates\rooms\room_detail.html:64
+msgid "Reviews"
+msgstr "리뷰"
+
 #: .\templates\rooms\room_list.html:21
 #, python-format
 msgid "Page %(current_page)s of %(total_pages)s"
 msgstr "%(total_pages)s 중 %(current_page)s "
+
+#: .\templates\rooms\room_photos.html:15
+msgid "Upload Photo"
+msgstr "사진 올리기"
+
+#: .\templates\rooms\room_photos.html:25
+msgid "Edit"
+msgstr "수정"
+
+#: .\templates\rooms\room_photos.html:31
+msgid "Back to edit room"
+msgstr "뒤로 가기"
+
+#: .\templates\rooms\rooms_delete.html:17
+msgid "If you delete it, it cannot be reversed."
+msgstr "삭제하면 되돌릴 수 없습니다."
+
+#: .\templates\rooms\rooms_delete.html:18
+msgid "Are you sure you want to"
+msgstr "정말로"
+
+#: .\templates\rooms\rooms_delete.html:18
+msgid "delete"
+msgstr "삭제"
+
+#: .\templates\rooms\rooms_delete.html:18
+msgid "it?"
+msgstr "하시겠습니까?"
+
+#: .\templates\rooms\rooms_edit.html:17
+msgid "Change Photo"
+msgstr "사진 바꾸기"
+
+#: .\templates\rooms\search.html:15
+msgid "Search"
+msgstr "도시 검색"
+
+#: .\templates\rooms\search.html:18
+msgid "Results"
+msgstr "결과"
+
+#: .\templates\users\login.html:19
+msgid "Don't have an account?"
+msgstr "계정이 없으십니까?"
+
+#: .\templates\users\login.html:21
+msgid "Sign up"
+msgstr "회원가입"
+
+#: .\templates\users\signup.html:19
+msgid "Have an account?"
+msgstr "계정이 있으십니까?"
+
+#: .\templates\users\signup.html:21
+msgid "Log in"
+msgstr "로그인"
+
+#: .\templates\users\update-profile.html:19
+msgid "Change Password"
+msgstr "비밀번호 변경"
+
+#: .\templates\users\user_detail.html:25
+msgid "Edit Profile"
+msgstr "프로필 수정"
 
 #: .\users\mixins.py:13 .\users\mixins.py:23
 msgid "Can't go there"
@@ -1277,10 +1439,6 @@ msgstr "언어"
 #: .\users\models.py:54
 msgid "currency"
 msgstr "화폐"
-
-#: .\users\models.py:55
-msgid "superhost"
-msgstr "호스트"
 
 #: .\users\models.py:56
 msgid "email_verified"

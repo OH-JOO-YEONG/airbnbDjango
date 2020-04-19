@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block page_title %}
     {{room.name}}'s Photos
 {% endblock page_title %}
@@ -28,24 +28,24 @@
                     <span class="mt-2 text-gray-500">{{reservation.room.host.first_name}}</span>
                 </div>
                 <div class="ml-5 flex flex-col">
-                    <span class="font-medium mb-2">Contact your Airbnb Host</span>
-                    <a href="#" class="font-semibold text-teal-500">Send a Message</a>
+                    <span class="font-medium mb-2">{% trans "Contact your Airbnb Host" %}</span>
+                    <a href="#" class="font-semibold text-teal-500">{% trans "Send a Message" %}</a>
                 </div>
             </div>
             <div class="py-10 px-5">
             {% if reservation.status != 'canceled' %}
                 {% if reservation.status == 'confirmed' and reservation.is_finished %}
-                    <span class="font-semibold text-lg text-center w-full block mb-5">Review Write</span>
+                    <span class="font-semibold text-lg text-center w-full block mb-5">{% trans "Review Write" %}</span>
                     <form action="{% url 'reviews:create' reservation.room.pk %}" method="POST" class="w-1/2 mx-auto">
                         {% csrf_token %}
                         {{form}}
-                        <button class="btn-link mt-5">Review Submit</button>
+                        <button class="btn-link mt-5">{% trans "Review Submit" %}</button>
                     </form>
                 {% else %}
                     {% if reservation.status == 'pending' %}
-                    <a href="{% url 'reservations:edit' reservation.pk 'cancel' %}" class="btn-link block px-3">Cancel Reservation</a>
+                    <a href="{% url 'reservations:edit' reservation.pk 'cancel' %}" class="btn-link block px-3">{% trans "Cancel Reservation" %}</a>
                         {% if reservation.room.host == user %}
-                        <a href="{% url 'reservations:edit' reservation.pk 'confirm' %}" class="btn-link block px-3 mt-5">Confirm Reservation</a>
+                        <a href="{% url 'reservations:edit' reservation.pk 'confirm' %}" class="btn-link block px-3 mt-5">{% trans "Confirm Reservation" %}</a>
                         {% endif %}
                     {% endif %}
                 {% endif %}

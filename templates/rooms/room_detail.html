@@ -28,9 +28,9 @@
             </div>
             {% on_favs room as on_favs_boolean %}
             {% if on_favs_boolean %}
-                <a class="block mb-10 w-2/6" href="{% url 'lists:save-room' room.pk %}">{% trans "Remove from Favorites" %}</a>
+                <a class="block mb-10 w-2/6 text-red-500 font-bold" href="{% url 'lists:toggle-room' room.pk %}?action=remove">{% trans "Remove from Favorites" %}</a>
             {% else %}
-                <a class="block mb-10 w-2/6" href="{% url 'lists:save-room' room.pk %}">{% trans "Save to Favorites" %}</a>
+                <a class="block mb-10 w-2/6 text-teal-500 font-bold" href="{% url 'lists:toggle-room' room.pk %}?action=add">{% trans "Save to Favorites" %}</a>
             {% endif %}
             <div class="flex border-section">
                 <span class="mr-5 font-light">{{room.room_type}}</span>
@@ -43,25 +43,25 @@
                 {{room.description}}
             </p>
             <div class="border-section">
-                <h4 class="font-semibold text-lg mb-5">Amenities</h4>
+                <h4 class="font-semibold text-lg mb-5">{% trans "Amenities" %}</h4>
                 {% for a in room.amenities.all %}
                     <li class="mb-2">{{a}}</li>
                 {% endfor %}
             </div>
             <div class="border-section">
-                <h4 class="font-semibold text-lg mb-5">Facilities</h4>
+                <h4 class="font-semibold text-lg mb-5">{% trans "Facilities" %}</h4>
                 {% for f in room.facilities.all %}
                     <li class="mb-2">{{f}}</li>
                 {% endfor %}
             </div>
             <div class="border-section">
-                <h4 class="font-semibold text-lg mb-5">House Rules</h4>
+                <h4 class="font-semibold text-lg mb-5">{% trans "House Rules" %}</h4>
                 {% for h in room.house_rules.all %}
                     <li class="mb-2">{{h}}</li>
                 {% endfor %}
             </div>
             <div class="mt-8">
-                <h4 class="font-semibold text-2xl mb-5">Reviews</h4>
+                <h4 class="font-semibold text-2xl mb-5">{% trans "Reviews" %}</h4>
                 <div class="flex items-center">
                     <div>
                         <i class="fas fa-star text-teal-500 mr-px"></i>
@@ -93,8 +93,8 @@
         </div>
         <div class="w-1/3">
             {% if room.host == user %}
-                <a href="{% url 'rooms:edit' room.pk %}" class="btn-link block my-3 bg-teal-500">Edit Room</a>
-                <a href="{% url 'rooms:delete-room' room.pk %}" class="btn-link block">Delete Room</a>
+                <a href="{% url 'rooms:edit' room.pk %}" class="btn-link block my-3 bg-teal-500">{% trans "" %}Edit Room</a>
+                <a href="{% url 'rooms:delete-room' room.pk %}" class="btn-link block">{% trans "" %}Delete Room</a>
             {% else %}
                 {% if not request.session.is_hosting %}
 

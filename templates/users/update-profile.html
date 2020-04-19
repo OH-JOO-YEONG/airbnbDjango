@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block page_title %}
     Update Profile
 {% endblock page_title %}
@@ -16,7 +16,7 @@
         {% if object.login_method == "password" %}
         <div class="mt-5">
             <a href="{% url 'users:password' %}" class="text-teal-500 font-semibold">
-                Change Password
+                {% trans "Change Password" %}
             </a>
         </div>
         {% endif %}
